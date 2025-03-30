@@ -1,0 +1,146 @@
+body {
+    background-color: #2c2e2d;
+    margin-top: 0px;
+}
+
+#navbar {
+    position: fixed;
+    top: 0;
+    margin-bottom: 15px;
+    background-color: darkgray;
+    padding-top: 15px;
+    width: 100%;
+    padding-bottom: 15px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+#navbar a {
+    border-right: 4px dotted black;
+    font-size: xx-large;
+    text-decoration: none;
+    padding-left: 1px;
+    padding-right: 10px;
+}
+
+#navbar a:first-child {
+    border-left: 4px dotted black;
+    padding-left: 10px;
+}
+
+.main {
+    margin: auto;
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 70%;
+    background-color: #8a1d2f;
+}
+
+.dynMain {
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+    background-color: #8a1d2f;
+    width: 70%;
+}
+
+#btnDiv {
+    text-align: center;
+    padding: 20px;
+}
+
+#createAARBtn {
+    background-color: #8a1d2f;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#createAARBtn:hover {
+    background-color: #a1243a;
+    transform: scale(1.05);
+}
+
+#createAARBtn:active {
+    background-color: #701725;
+    transform: scale(0.95);
+}
+
+#addDynBtn {
+    background-color: #8a1d2f;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#addDynBtn:hover {
+    background-color: #a1243a;
+    transform: scale(1.05);
+}
+
+#addDynBtn:active {
+    background-color: #701725;
+    transform: scale(0.95);
+}
+
+#delDynBtn {
+    background-color: #8a1d2f;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s; 
+}
+
+#delDynBtn:hover {
+    background-color: #a1243a;
+    transform: scale(1.05);
+}
+
+#delDynBtn:active {
+    background-color: #701725;
+    transform: scale(0.95);
+}
+
+
+.previewImgs {
+    background-color: #2c2e2d;
+    margin: 1%;
+    text-align: center;
+    padding: 5px;
+}
+
+.previewImgs:hover {
+    transform: scale(120%);
+    transition: transform 0.5s ease-in-out 0.3s;
+}
+
+.dynasty-card {
+    margin: auto;
+    padding: 30px;
+    color: white;
+}
+
+#dynastyFormContainer {
+    color: white;
+}

@@ -3,10 +3,11 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Tworzenie Kronik</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
-    <script src='main.js'></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='./css/style.css'>
+    <script defer src='./js/main.js'></script>
+    <script defer src='./js/dynasties.js'></script>    
 </head>
 <body>
 
@@ -16,12 +17,31 @@
     </div>
 
     <div class="main">
-
         <div id="btnDiv">
             <button id="createAARBtn">STWÓRZ SWOJE AAR</button>
         </div>
 
+        <!-- DODAWANIE DYNASTII -->
+        <div id="dynastyFormContainer" style="display: none;">
+            <form id="add-dynasty-form">
+                <label for="dynasty-name">Nazwa dynastii:</label>
+                <input type="text" id="dynasty-name" required>
+        
+                <label for="dynasty-motto">Motto dynastii:</label>
+                <input type="text" id="dynasty-motto">
+        
+                <label for="dynasty-coat-of-arms">Herb dynastii:</label>
+                <input type="file" id="dynasty-coat-of-arms" accept="image/*">                
+        
+                <button id="addDynBtn" type="submit">Dodaj dynastię</button>
+            </form>
+        </div>
+
     </div>
-    
+
+    <!-- LISTA DYNASTII -->
+    <div class="dynMain">
+        <div id="dynasties-list"></div>
+    </div>
 </body>
 </html>
