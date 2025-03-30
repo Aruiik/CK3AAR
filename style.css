@@ -61,13 +61,13 @@ body {
 }
 
 #createAARBtn:hover {
-    background-color: #a1243a; /* Ciemniejszy kolor po najechaniu */
-    transform: scale(1.05); /* Delikatne powiększenie */
+    background-color: #a1243a;
+    transform: scale(1.05);
 }
 
 #createAARBtn:active {
-    background-color: #701725; /* Jeszcze ciemniejszy kolor po kliknięciu */
-    transform: scale(0.95); /* Efekt "wciśnięcia" */
+    background-color: #701725;
+    transform: scale(0.95);
 }
 
 
