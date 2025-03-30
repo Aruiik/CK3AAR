@@ -80,5 +80,5 @@ body {
 
 .previewImgs:hover {
     transform: scale(120%);
-    transition: transform 0.5s ease-in-out 0.3s; /* Opóźnienie 2 sekundy */
+    transition: transform 0.5s ease-in-out 0.3s;
 }
