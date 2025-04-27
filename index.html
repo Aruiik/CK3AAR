@@ -18,55 +18,64 @@
 
     <div class="main">
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia1')">
             <h1>Preview 1</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia2')">
             <h1>Preview 2</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia1')">
             <h1>Preview 3</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia2')">
             <h1>Preview 4</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia1')"> 
             <h1>Preview 5</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia2')">
             <h1>Preview 6</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia1')">
             <h1>Preview 7</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
-        <div class="previewImgs">
+        <div class="previews" onclick="openModal('dynastia2')">
             <h1>Preview 8</h1>
-            <img src="example.png">
+            <img class="previewImgs" src="example.png">
             <p>Krótki opis co iczego</p>
         </div>
 
 
+    </div>
+
+    <!-- Modal -->
+    <div id="dynastyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalShield"></div>
+            <div id="modalRulers"></div>
+        </div>
     </div>
 
     <footer id="footerMy">Copyright © All rights reserved | Made by Krystian Ciura </footer>

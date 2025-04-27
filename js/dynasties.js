@@ -1,3 +1,5 @@
+// FORMULARZ DO DODAWANIA DYNASTII (NAZWA DYNASTII, MOTTO DYNASTII, HERB DYNASTII, GRAFIKA)
+
 document.addEventListener("DOMContentLoaded", () => {
     const dynastiesList = document.getElementById("dynasties-list");
     const addDynastyForm = document.getElementById("add-dynasty-form");
