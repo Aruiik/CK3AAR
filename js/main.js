@@ -42,3 +42,4 @@ function closeModal() {
   const modal = document.getElementById('dynastyModal');
   modal.style.display = 'none';
 }
+

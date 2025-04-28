@@ -254,4 +254,38 @@ body {
     height: auto;
     margin-bottom: 20px;
 }
-  
+
+/* OSTYLOWANIE WYŚWIETLANIA WŁADCÓW */
+
+.dynasty-grid {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.dynasty-info {
+    background-color: #8a2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+}
+
+.rulers-list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow-x: auto; /* To daje poziomy scroll */
+    overflow-y: hidden; /* Żeby nie pojawiał się pionowy scroll */
+    flex-wrap: nowrap; /* Żeby NIE zawijało do nowej linii */
+    padding-bottom: 10px; /* Trochę miejsca na pasek przewijania */
+}
+
+.ruler-card {
+    background-color: #a03c3c;
+    padding: 15px;
+    border-radius: 10px;
+    width: 200px;
+    flex-shrink: 0; /* Władcy się nie zwężają */
+}
