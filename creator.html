@@ -7,13 +7,23 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./css/style.css'>
     <script defer src='./js/main.js'></script>
-    <script defer src='./js/dynasties.js'></script>    
+    <script defer src='./js/dynasties.js'></script>
+    <script defer src="./js/cssHelper.js"></script>
 </head>
 <body>
 
     <div id="navbar">
-        <a href="index.html">HOME</a>
-        <a href="creator.html">CREATOR</a>
+        <div class="dropdown">
+            <button id="dropdownButton" class="dropbtn">
+                <span class="btn-label">OPCJE</span>
+                <span class="arrow">▼</span>
+            </button>
+
+            <div id="dropdownMenu" class="dropdown-content">
+                <a href="index.html">HOME</a>
+                <a href="creator.html">CREATOR</a>
+            </div>
+        </div>
     </div>
 
     <div class="main">

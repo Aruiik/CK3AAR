@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const dynastyData = {
   dynastia1: {
-    shield: '🛡️ Dynastia 1', // tutaj możesz wrzucić obrazek lub styl tarczy
+    shield: '🛡️ Dynastia 1',
     rulers: ['Władca A', 'Władca B', 'Władca C']
   },
   dynastia2: {

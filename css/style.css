@@ -219,7 +219,7 @@ body {
 /* POP-UP */
 
 .modal {
-    display: none; /* ukryty domyślnie */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -288,4 +288,74 @@ body {
     border-radius: 10px;
     width: 200px;
     flex-shrink: 0; /* Władcy się nie zwężają */
+}
+
+/* ROZSUWANE MENU */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: darkgray;
+    color: white;
+    padding: 6px 14px;
+    font-size: xx-large;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.dropbtn:hover {
+    background-color: rgb(196, 196, 196);
+    transform: scale(1.05);
+}
+
+.dropbtn:active {
+    background-color: rgb(160, 160, 160);
+    transform: scale(0.95);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: darkgray;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+    z-index: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    right: 0;
+    top: 100%;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: large;
+    background-color: darkgray;
+    transition: background 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: rgb(160, 160, 160);
+}
+
+/* STRZAŁKA PRZY ROZWIJANYM MENU */
+
+.arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.arrow.rotate {
+    transform: rotate(270deg);
 }
