@@ -1,3 +1,14 @@
+// WYLICZANIE OKRESÓW PANOWANIA DYNASTII
+
+function getDynastyPeriod(dynasty) {
+    if (!dynasty.władcy || dynasty.władcy.length === 0) return "";
+    const first = dynasty.władcy[0];
+    const last = dynasty.władcy[dynasty.władcy.length - 1];
+    let from = first.okresOd || (first.okres ? first.okres.split('-')[0] : "");
+    let to = last.okresDo || (last.okres ? last.okres.split('-').slice(-1)[0] : "");
+    return from && to ? `${from}–${to}` : "";
+}
+
 // FUNKCJA DO POBIERANIA IKONEK
 
 function getRankIcon(rank) {
@@ -39,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             preview.onclick = () => openModal(dynasty);
             preview.innerHTML = `
                 <h1>${dynasty.nazwa}</h1>
+                <p class="dynasty-period">Panowanie: ${getDynastyPeriod(dynasty)}</p>                
                 <div class="previewImgs">
                     <img src="${dynasty.herb}" alt="Herb dynastii">
                 </div>
@@ -83,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h2>${dynasty.nazwa}</h2>
             <img class="modal-shield-img" src="${dynasty.herb}" alt="Herb dynastii">
             <p>${dynasty.motto || ""}</p>
+            <p class="dynasty-period">Okres panowania: ${getDynastyPeriod(dynasty)}</p>
         `;
         let rulersHtml = "";
         dynasty.władcy.forEach((ruler, i) => {

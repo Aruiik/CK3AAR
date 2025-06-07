@@ -1,3 +1,15 @@
+// WYLICZANIE OKRESÓW PANOWANIA DYNASTII
+
+function getDynastyPeriod(dynasty) {
+    if (!dynasty.władcy || dynasty.władcy.length === 0) return "";
+    const first = dynasty.władcy[0];
+    const last = dynasty.władcy[dynasty.władcy.length - 1];
+    let from = first.okresOd || (first.okres ? first.okres.split('-')[0] : "");
+    let to = last.okresDo || (last.okres ? last.okres.split('-').slice(-1)[0] : "");
+    return from && to ? `${from}–${to}` : "";
+}
+
+
 // FORMULARZ DO DODAWANIA I EDYCJI DYNASTII ORAZ WŁADCÓW
 
 let currentDynastyIndex = null;
@@ -28,6 +40,26 @@ function openAddRulerModal(dynastyIndex) {
         fromInput.min = minYear ? (minYear + 1) : '';
         fromInput.value = minYear ? (minYear + 1) : '';
     }
+
+    // --- PODPOWIEDŹ HERBU RODU ---
+    const herbInput = document.querySelector('#add-ruler-popup-form [name="ruler-herb"]');
+    if (herbInput) {
+        const dynasties = JSON.parse(localStorage.getItem("dynasties")) || [];
+        const rulers = dynasties[dynastyIndex]?.władcy || [];
+        let lastHerb = "";
+        for (let i = rulers.length - 1; i >= 0; i--) {
+            if (rulers[i].herbRodu) {
+                lastHerb = rulers[i].herbRodu;
+                break;
+            }
+        }
+        if (rulers.length > 0) {
+            herbInput.value = rulers[rulers.length - 1].herbRodu || "";
+        } else {
+            herbInput.value = "";
+        }
+    }
+
     document.getElementById('addRulerModal').style.display = 'block';
 }
 
@@ -141,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <h3>${dynasty.nazwa}</h3>
                         <img src="${dynasty.herb}" alt="Herb ${dynasty.nazwa}" style="width: 100px;">
                         <p>${dynasty.motto}</p>
+                        <p class="dynasty-period">${getDynastyPeriod(dynasty)}</p>
                         <button class="edit-dynasty-btn" data-dynasty-index="${index}" title="Edytuj dynastię">&#9998;</button>
                         <button class="delete-dynasty-btn" onclick="deleteDynasty(${index})" title="Usuń dynastię">&#128465;</button>
                     </div>
@@ -282,13 +315,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        let herbValue = form['ruler-herb'].value.trim();
+        if (herbValue === "") {
+            herbValue = null;
+        }
+
         const newRuler = {
             imie: form['ruler-name'].value,
             okres: `${from}-${to}`,
             okresOd: from,
             okresDo: to,
             opis: form['ruler-description'].value,
-            herbRodu: form['ruler-herb'].value || null,
+            herbRodu: herbValue,
             mapka: form['ruler-map'].value || null,
             poziom: form['ruler-rank'].value       
         };
