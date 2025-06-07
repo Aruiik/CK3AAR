@@ -1,22 +1,32 @@
 body {
-    background-color: #2c2e2d;
+    background:
+        linear-gradient(180deg, #fff2 0%, transparent 100%),
+        linear-gradient(120deg, #2c2e2d 0%, #8a1d2f 110%),
+        url("data:image/svg+xml;utf8,<svg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='2' cy='2' r='2' fill='%23ffffff11'/></svg>");
+    background-blend-mode: overlay;
+    font-family: 'Montserrat', Arial, sans-serif;
 }
 
 #navbar {
     position: fixed;
     z-index: 1000;
     top: 0;
+    left: 0;
+    right: 0;
     margin-bottom: 15px;
-    background-color: darkgray;
+    background: linear-gradient(90deg, #2c2e2d , darkgray , #2c2e2d );
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 6px 0 #fff1;
+    border-bottom: 2px solid #fff3;
     padding-top: 15px;
-    width: 100%;
+    width: 100vw;
     padding-bottom: 15px;
     text-align: center;
     font-size: xx-large;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 #navbar a {
-    /* border-right: 4px dotted black; */
     background-color: darkgray;
     color: white;
     border-radius: 8px;
@@ -24,11 +34,28 @@ body {
     transition: background 0.3s, transform 0.2s;
     font-size: xx-large;
     text-decoration: none;
-    /* padding-left: 1px;
-    padding-right: 10px; */
     padding: 6px 14px;
+    position: relative;
+    overflow: hidden;    
+}
 
-    
+#navbar a::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 4px;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.2s, left 0.2s, right 0.2s;
+}
+#navbar a:hover::after {
+    left: 10%;
+    right: 10%;
+    opacity: 1;
 }
 
 #navbar a:hover {
@@ -42,7 +69,6 @@ body {
 }
 
 #navbar a:first-child {
-    /* border-left: 4px dotted black; */
     padding-left: 10px;
 }
 
@@ -59,6 +85,7 @@ body {
     padding-bottom: 20px;
     width: 70%;
     background-color: #8a1d2f;
+    background: linear-gradient(90deg, #631522 , #8a1d2f , #bd2740 );
 }
 
 .dynMain {
@@ -77,6 +104,7 @@ body {
 
 #createAARBtn {
     background-color: #8a1d2f;
+    background: linear-gradient(90deg, #7e1a2b , #8a1d2f , #912436 );    
     color: white;
     border: none;
     padding: 15px 30px;
@@ -151,12 +179,10 @@ body {
     opacity: 0;
     transform: translateY(20px) scale(1);
     animation: fadeInOpacity 0.6s forwards;
-    /* animation-delay: 0.2s; */
     transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
 
     /* KSZTAŁT */
     position: relative;
-    /* width: 100%; */
     height: 90%;
     background-color: #2c2e2d;
     border-radius: 0 0 70% 70%;
@@ -164,25 +190,30 @@ body {
 }
 
 .previewImgs {
-    margin: 1%;
-    text-align: center;
-    padding: 3px;
-
-    /* ANIMACJA */
-    opacity: 0;
-    transform: translateY(20px) scale(1);
-    animation: fadeInOpacity 0.6s forwards;
-    /* animation-delay: 0.2s; */
-    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
-
-    /* KSZTAŁT */
-    position: relative;
-    width: 95%;
-    height: 90%;
-    padding-bottom: 20px;
+    width: 180px;
+    height: 120px;
+    margin: 0 auto 10px auto;
+    padding: 0;
     border-radius: 0 0 50% 50%;
-    display: inline-block;
+    background: #fff2;
+    box-shadow: 0 2px 8px #0003;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    opacity: 1;
+    transform: none;
+    animation: none;
 }
+
+.previewImgs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 
 .previews:hover {
     transform: translateY(0) scale(1.05);
@@ -197,10 +228,19 @@ body {
     }
 }
 
+
 .dynasty-card {
-    margin: auto;
-    padding: 30px;
-    color: white;
+    background: rgba(255,255,255,0.03);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 6px 0 #fff1;
+    margin-bottom: 40px;
+    transition: box-shadow 0.3s, transform 0.2s;
+    border: 1.5px solid #fff2;
+}
+
+.dynasty-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(138,29,47,0.25), 0 2px 8px 0 #fff2;
+    transform: scale(1.01);
 }
 
 .dynasty-info {
@@ -221,6 +261,7 @@ body {
 
 #footerMy {
     background-color: darkgray;
+    background: linear-gradient(90deg, #2c2e2d , darkgray , #2c2e2d );    
     padding-top: 6px;
     width: 100%;
     padding-bottom: 6px;
@@ -243,7 +284,10 @@ body {
 }
   
 .modal-content {
-    background-color: #2c2e2d;
+    background: rgba(44,46,45,0.95);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 12px 48px 0 rgba(0,0,0,0.28);
+    border-radius: 24px;
     margin: 10% auto;
     padding: 20px;
     border: 3px solid white;
@@ -251,6 +295,7 @@ body {
     text-align: center;
     color: white;
     position: relative;
+    animation: modalFadeIn 0.4s;
 }
   
 .close {
@@ -267,6 +312,11 @@ body {
     margin-bottom: 20px;
 }
 
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-40px) scale(0.98);}
+    to { opacity: 1; transform: none;}
+}
+
 /* OSTYLOWANIE WYŚWIETLANIA WŁADCÓW */
 
 .dynasty-grid {
@@ -275,6 +325,7 @@ body {
     align-items: center; /* to centrowanie pionowe */
     gap: 20px;
     margin-bottom: 40px;
+    padding: 20px;
 }
 
 .dynasty-info {
@@ -291,16 +342,17 @@ body {
 .rulers-list {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 32px;
+    padding: 15px;
     overflow-x: auto; /* To daje poziomy scroll */
-    overflow-y: hidden; /* Żeby nie pojawiał się pionowy scroll */
+    overflow-y: visible; /* Żeby nie pojawiał się pionowy scroll */
     flex-wrap: nowrap; /* Żeby NIE zawijało do nowej linii */
-    padding-bottom: 10px; /* Trochę miejsca na pasek przewijania */
-    align-items: center; /* <-- dodaj to! */
+    padding-bottom: 20px;
+    align-items: center;
 }
 
 .ruler-card {
-    background-color: #a03c3c;
+    background: linear-gradient(135deg, #a03c3c 80%, #8a1d2f 100%);
     padding: 15px;
     border-radius: 10px;
     width: 200px;
@@ -320,7 +372,7 @@ body {
 .ruler-card:hover {
     box-shadow: 0 8px 24px 0 rgba(0,0,0,0.25), 0 1.5px 6px 0 #fff3;
     transform: scale(1.03);
-    z-index: 2;
+    z-index: 10;
 }
 
 .ruler-actions {
@@ -387,18 +439,25 @@ body {
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: darkgray;
-    min-width: 160px;
+    background: rgba(180,180,180,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #fff4;
+    min-width: 200px;
+    width: 200px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
     z-index: 1;
     border-radius: 8px;
     overflow: hidden;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     top: 100%;
 }
 
 .dropdown-content.show {
     display: block;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .dropdown-content a {
@@ -434,11 +493,11 @@ body {
     align-items: center;
     font-size: 48px;
     cursor: pointer;
-    min-width: 200px;  /* stała szerokość jak ruler-card */
+    min-width: 200px;
     max-width: 200px;
     min-height: 120px;
     max-height: 180px;
-    height: 180px;      /* stała wysokość jak ruler-card */
+    height: 180px;
     width: 200px;
     transition: background 0.2s, box-shadow 0.2s;
     display: flex;
@@ -452,13 +511,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* <-- zmień z flex-end na center */
+    justify-content: center;
     margin: 0 10px;
     min-width: 60px;
 }
 
 .ruler-period {
-    font-size: 14px;
+    font-size: 20px;
     color: #fff;
     margin-bottom: 2px;
     text-align: center;
@@ -466,14 +525,12 @@ body {
 }
 
 .ruler-arrow {
-    font-size: 36px;
+    font-size: 74px;
     color: #fff;
     line-height: 1;
     margin-top: 0;
-    /* Możesz zamienić na SVG dla lepszego efektu */
 }
 
-/* Pasek okresu ostatniego władcy */
 .ruler-bar-block {
     display: flex;
     flex-direction: column;
@@ -540,3 +597,122 @@ body {
 .pagination-btn:hover {
     background: #a1243a;
 }
+
+.ruler-arrow-block-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+}
+.ruler-arrow-side {
+    font-size: 36px;
+    color: #fff;
+    line-height: 1;
+    margin-right: 8px;
+}
+.ruler-period-side {
+    font-size: 14px;
+    color: #fff;
+    font-style: italic;
+}
+
+.edit-dynasty-btn {
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 22px;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    opacity: 0;
+    transition: background 0.2s, opacity 0.2s;
+    z-index: 2;
+}
+.dynasty-info:hover .edit-dynasty-btn {
+    opacity: 1;
+}
+.edit-dynasty-btn:hover {
+    background: #ffe082;
+}
+
+button, .edit-dynasty-btn, .delete-dynasty-btn {
+    transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover, .edit-dynasty-btn:hover, .delete-dynasty-btn:hover {
+    box-shadow: 0 4px 16px #ffe08255;
+}
+
+.dynasty-card, .ruler-card {
+    animation: fadeIn 0.7s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: none;}
+}
+
+
+
+.dynasty-info, .ruler-card {
+    margin-bottom: 16px;
+}
+
+.save-btn {
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 4px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 22px;
+    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+    color: #388e3c;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+.save-btn:hover {
+    background: #b9f6ca;
+    color: #1b5e20;
+    box-shadow: 0 4px 16px #69f0ae99;
+}
+.save-icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 #ffe08255; }
+    70% { box-shadow: 0 0 0 10px #ffe08200; }
+    100% { box-shadow: 0 0 0 0 #ffe08200; }
+}
+.edit-dynasty-btn:hover,
+.delete-dynasty-btn:hover,
+.save-btn:hover {
+    animation: pulse 0.7s;
+}
+
+#createAARBtn:hover {
+    animation: bounce 0.5s;
+}
+@keyframes bounce {
+    0% { transform: scale(1);}
+    30% { transform: scale(1.08);}
+    50% { transform: scale(0.97);}
+    70% { transform: scale(1.03);}
+    100% { transform: scale(1.01);}
+}
+
+.ruler-rank-icon {
+    font-size: 1.5em;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.ruler-rank-icon[data-rank="bezziemi"] { color: #bbb; }
+.ruler-rank-icon[data-rank="hrabia"] { color: #8a1d2f; }
+.ruler-rank-icon[data-rank="diuk"] { color: #3e5c9a; }
+.ruler-rank-icon[data-rank="krol"] { color: #e6b800; }
+.ruler-rank-icon[data-rank="cesarz"] { color: #b87333; }
+

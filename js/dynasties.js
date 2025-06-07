@@ -1,4 +1,4 @@
-// FORMULARZ DO DODAWANIA DYNASTII (NAZWA DYNASTII, MOTTO DYNASTII, HERB DYNASTII, GRAFIKA)
+// FORMULARZ DO DODAWANIA I EDYCJI DYNASTII ORAZ WŁADCÓW
 
 let currentDynastyIndex = null;
 let editMode = false;
@@ -8,32 +8,26 @@ let editRulerIdx = null;
 function openAddRulerModal(dynastyIndex) {
     currentDynastyIndex = dynastyIndex;
     editMode = false;
-    // Pobierz ostatniego władcę tej dynastii
     const dynasties = JSON.parse(localStorage.getItem("dynasties")) || [];
     const rulers = dynasties[dynastyIndex]?.władcy || [];
     let minYear = '';
     if (rulers.length > 0) {
-        // Zakładamy, że okres to liczby, np. "100-150"
         const lastRuler = rulers[rulers.length - 1];
         let lastTo = 0;
         if (lastRuler.okres) {
-            // Jeśli stary format: "100-150"
             const match = lastRuler.okres.match(/(\d+)\D+(\d+)/);
             if (match) lastTo = parseInt(match[2]);
         }
         if (lastRuler.okresDo) {
-            // Jeśli nowy format
             lastTo = parseInt(lastRuler.okresDo);
         }
         minYear = lastTo;
     }
-    // Ustaw min na input
     const fromInput = document.querySelector('#add-ruler-popup-form [name="ruler-period-from"]');
     if (fromInput) {
         fromInput.min = minYear ? (minYear + 1) : '';
         fromInput.value = minYear ? (minYear + 1) : '';
     }
-    document.getElementById('rulerSubmitBtn').textContent = "Dodaj władcę";
     document.getElementById('addRulerModal').style.display = 'block';
 }
 
@@ -45,7 +39,6 @@ function openEditRulerModal(dynastyIdx, rulerIdx) {
     const dynasties = JSON.parse(localStorage.getItem("dynasties")) || [];
     const ruler = dynasties[dynastyIdx].władcy[rulerIdx];
 
-    // Wypełnij formularz danymi
     const form = document.getElementById('add-ruler-popup-form');
     form['ruler-name'].value = ruler.imie || '';
     if (ruler.okresOd) {
@@ -63,14 +56,19 @@ function openEditRulerModal(dynastyIdx, rulerIdx) {
     form['ruler-description'].value = ruler.opis || '';
     form['ruler-herb'].value = ruler.herbRodu || '';
     form['ruler-map'].value = ruler.mapka || '';
+    form['ruler-rank'].value = ruler.poziom || "bezziemi";
 
-    document.getElementById('rulerSubmitBtn').textContent = "Edytuj władcę";
     document.getElementById('addRulerModal').style.display = 'block';
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     const dynastiesList = document.getElementById("dynasties-list");
-    const addDynastyForm = document.getElementById("add-dynasty-form");
+    const dynastyModal = document.getElementById("dynastyModal");
+    const dynastyModalTitle = document.getElementById("dynastyModalTitle");
+    const dynastyForm = document.getElementById("dynasty-form");
+    const dynastyModalBtn = document.getElementById("dynastyModalBtn");
+    const closeDynastyModal = document.getElementById("closeDynastyModal");
+    const createAARBtn = document.getElementById("createAARBtn");
 
     const dynastyNameInput = document.getElementById("dynasty-name");
     const dynastyMottoInput = document.getElementById("dynasty-motto");
@@ -92,13 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
         dynasties.forEach((dynasty, index) => {
             const dynastyItem = document.createElement("div");
             dynastyItem.classList.add("dynasty-card");
+            dynastyItem.style.animationDelay = (index * 0.08) + "s";
 
             let rulersHtml = "";
             dynasty.władcy.forEach((ruler, i) => {
                 rulersHtml += `
-                    <div class="ruler-card" data-dynasty-index="${index}" data-ruler-index="${i}">
+                    <div class="ruler-card" data-dynasty-index="${index}" data-ruler-index="${i}" style="animation-delay:${i * 0.06}s">
                         ${ruler.herbRodu ? `<img src="${ruler.herbRodu}" alt="Herb władcy" style="width: 80px;">` : ""}
-                        <p><strong>${ruler.imie}</strong></p>
+                        <p>
+                          <span class="ruler-rank-icon" data-rank="${ruler.poziom}">${getRankIcon(ruler.poziom)}</span>
+                          <strong>${ruler.imie}</strong>
+                        </p>
                         <p>${ruler.opis}</p>
                         ${ruler.mapka ? `<img src="${ruler.mapka}" alt="Mapa" style="width: 100px;">` : ""}
                         <div class="ruler-actions">
@@ -107,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                 `;
-                // Dodaj strzałkę po każdym władcy oprócz ostatniego
                 if (i < dynasty.władcy.length - 1) {
                     rulersHtml += `
                         <div class="ruler-arrow-block">
@@ -118,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     `;
                 }
-                // Dodaj pasek po ostatnim władcy
                 if (i === dynasty.władcy.length - 1) {
                     rulersHtml += `
                         <div class="ruler-bar-block">
@@ -129,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Dodaj kafelek dodawania władcy na końcu
             rulersHtml += `
                 <div class="ruler-card add-ruler-tile" data-dynasty-index="${index}" style="display:flex;align-items:center;justify-content:center;cursor:pointer;">
                     <span style="font-size:48px;">+</span>
@@ -142,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <h3>${dynasty.nazwa}</h3>
                         <img src="${dynasty.herb}" alt="Herb ${dynasty.nazwa}" style="width: 100px;">
                         <p>${dynasty.motto}</p>
+                        <button class="edit-dynasty-btn" data-dynasty-index="${index}" title="Edytuj dynastię">&#9998;</button>
                         <button class="delete-dynasty-btn" onclick="deleteDynasty(${index})" title="Usuń dynastię">&#128465;</button>
                     </div>
                     <div class="rulers-list" data-dynasty-index="${index}">
@@ -153,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
             dynastiesList.appendChild(dynastyItem);
         });
 
-        // Obsługa kliknięcia w kafelek dodawania władcy
         document.querySelectorAll('.add-ruler-tile').forEach(tile => {
             tile.addEventListener('click', function() {
                 const dynastyIndex = this.getAttribute('data-dynasty-index');
@@ -163,18 +162,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
         addRulerCardListeners();
     }
-    
 
-    if (addDynastyForm) {
-        addDynastyForm.addEventListener("submit", (event) => {
+    if (dynastyForm) {
+        dynastyForm.onsubmit = function(event) {
             event.preventDefault();
 
             const file = dynastyCoatOfArmsInput.files[0];
+            const dynasties = getDynasties();
+
+            if (typeof window.editDynastyIdx === "number") {
+                // EDYCJA
+                const idx = window.editDynastyIdx;
+                dynasties[idx].nazwa = dynastyNameInput.value;
+                dynasties[idx].motto = dynastyMottoInput.value;
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        dynasties[idx].herb = e.target.result;
+                        saveDynasties(dynasties);
+                        dynastyForm.reset();
+                        dynastyModal.style.display = "none";
+                        renderDynasties();
+                    };
+                    reader.readAsDataURL(file);
+                    return;
+                } else {
+                    saveDynasties(dynasties);
+                    dynastyForm.reset();
+                    dynastyModal.style.display = "none";
+                    renderDynasties();
+                    return;
+                }
+            }
+
+            // DODAWANIE
             if (!file) {
                 alert("Wybierz plik graficzny!");
                 return;
             }
-
             const reader = new FileReader();
             reader.onload = function (e) {
                 const newDynasty = {
@@ -183,17 +208,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     herb: e.target.result,
                     władcy: []
                 };
-
-                const dynasties = getDynasties();
                 dynasties.push(newDynasty);
                 saveDynasties(dynasties);
-
-                addDynastyForm.reset();
+                dynastyForm.reset();
+                dynastyModal.style.display = "none";
                 renderDynasties();
             };
-
             reader.readAsDataURL(file);
-        });
+        };
     }
 
     window.deleteDynasty = (index) => {
@@ -203,12 +225,10 @@ document.addEventListener("DOMContentLoaded", () => {
         renderDynasties();
     };
 
-    // Zamknięcie modala
     document.getElementById('closeRulerModal').onclick = function() {
         document.getElementById('addRulerModal').style.display = 'none';
     };
 
-    // Dodanie władcy przez pop-up
     document.getElementById('add-ruler-popup-form').onsubmit = function(e) {
         e.preventDefault();
         const dynasties = getDynasties();
@@ -217,9 +237,34 @@ document.addEventListener("DOMContentLoaded", () => {
         const from = parseInt(form['ruler-period-from'].value);
         const to = parseInt(form['ruler-period-to'].value);
 
-        // Pobierz ostatniego władcę tej dynastii (do walidacji tylko przy dodawaniu)
-        if (!editMode) {
-            const rulers = dynasties[currentDynastyIndex].władcy;
+        const rulers = editMode
+            ? dynasties[editDynastyIdx].władcy
+            : dynasties[currentDynastyIndex].władcy;
+
+        if (from >= to) {
+            alert("Data końca rządów musi być większa niż data rozpoczęcia.");
+            return;
+        }
+
+        // WALIDACJA DLA EDYCJI I DODAWANIA
+        if (editMode) {
+            if (editRulerIdx > 0) {
+                const prev = rulers[editRulerIdx - 1];
+                let prevTo = prev.okresDo || (prev.okres ? parseInt(prev.okres.split('-')[1]) : null);
+                if (prevTo !== null && from <= prevTo) {
+                    alert("Data rozpoczęcia rządów musi być późniejsza niż data końca poprzedniego władcy (" + prevTo + ").");
+                    return;
+                }
+            }
+            if (editRulerIdx < rulers.length - 1) {
+                const next = rulers[editRulerIdx + 1];
+                let nextFrom = next.okresOd || (next.okres ? parseInt(next.okres.split('-')[0]) : null);
+                if (nextFrom !== null && to >= nextFrom) {
+                    alert("Data końca rządów musi być wcześniejsza niż data rozpoczęcia kolejnego władcy (" + nextFrom + ").");
+                    return;
+                }
+            }
+        } else {
             if (rulers.length > 0) {
                 let lastTo = 0;
                 const lastRuler = rulers[rulers.length - 1];
@@ -236,10 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         }
-        if (from >= to) {
-            alert("Data końca rządów musi być większa niż data rozpoczęcia.");
-            return;
-        }
 
         const newRuler = {
             imie: form['ruler-name'].value,
@@ -248,11 +289,11 @@ document.addEventListener("DOMContentLoaded", () => {
             okresDo: to,
             opis: form['ruler-description'].value,
             herbRodu: form['ruler-herb'].value || null,
-            mapka: form['ruler-map'].value || null
+            mapka: form['ruler-map'].value || null,
+            poziom: form['ruler-rank'].value       
         };
 
         if (editMode) {
-            // Nadpisz istniejącego władcę
             dynasties[editDynastyIdx].władcy[editRulerIdx] = newRuler;
         } else {
             dynasties[currentDynastyIndex].władcy.push(newRuler);
@@ -266,15 +307,31 @@ document.addEventListener("DOMContentLoaded", () => {
         editRulerIdx = null;
     };
 
-    // Zamknięcie modala po kliknięciu poza treść
     window.onclick = function(event) {
-        const modal = document.getElementById('addRulerModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
+        const rulerModal = document.getElementById('addRulerModal');
+        if (event.target === rulerModal) {
+            rulerModal.style.display = 'none';
+        }
+        if (event.target === dynastyModal) {
+            dynastyModal.style.display = 'none';
         }
     };
 
-    renderDynasties();
+    // Obsługa przycisku "Stwórz swoje AAR"
+    if (createAARBtn && dynastyModal) {
+        createAARBtn.onclick = () => {
+            dynastyModalTitle.textContent = "Dodaj dynastię";
+            dynastyForm.reset();
+            dynastyModal.style.display = "block";
+            window.editDynastyIdx = undefined;
+        };
+    }
+    if (closeDynastyModal) {
+        closeDynastyModal.onclick = () => {
+            dynastyModal.style.display = "none";
+        };
+    }
+
     function addRulerCardListeners() {
         document.querySelectorAll('.delete-ruler-btn').forEach(btn => {
             btn.onclick = function(e) {
@@ -298,21 +355,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 const card = btn.closest('.ruler-card');
                 const dynastyIdx = parseInt(card.getAttribute('data-dynasty-index'));
                 const rulerIdx = parseInt(card.getAttribute('data-ruler-index'));
-                // Otwórz modal edycji (możesz użyć tego samego co do dodawania, tylko wypełnij wartości)
                 openEditRulerModal(dynastyIdx, rulerIdx);
+            };
+        });
+
+        document.querySelectorAll('.edit-dynasty-btn').forEach(btn => {
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                const dynastyIdx = parseInt(btn.getAttribute('data-dynasty-index'));
+                const dynasties = getDynasties();
+                const dynasty = dynasties[dynastyIdx];
+                if (!dynasty) return;
+
+                dynastyModalTitle.textContent = "Edytuj dynastię";
+                dynastyNameInput.value = dynasty.nazwa;
+                dynastyMottoInput.value = dynasty.motto;
+                dynastyModal.style.display = "block";
+                window.editDynastyIdx = dynastyIdx;
             };
         });
     }
 
-    addRulerCardListeners();
-
-    // POKAŻ FORMULARZ PO KLIKNIĘCIU "STWÓRZ SWOJE AAR"
-    const createAARBtn = document.getElementById("createAARBtn");
-    const dynastyFormContainer = document.getElementById("dynastyFormContainer");
-    if (createAARBtn && dynastyFormContainer) {
-        createAARBtn.onclick = () => {
-            dynastyFormContainer.style.display = "block";
-            createAARBtn.style.display = "none";
-        };
-    }
+    renderDynasties();
 });
+
+function getRankIcon(rank) {
+    switch(rank) {
+        case "bezziemi": return "🧑";
+        case "hrabia": return "🏰";
+        case "diuk": return "🎩";
+        case "krol": return "⚜️";
+        case "cesarz": return "👑";
+        default: return "";
+    }
+}

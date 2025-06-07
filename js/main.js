@@ -1,3 +1,16 @@
+// FUNKCJA DO POBIERANIA IKONEK
+
+function getRankIcon(rank) {
+    switch(rank) {
+        case "bezziemi": return "🧑";
+        case "hrabia": return "🏰";
+        case "diuk": return "🎩";
+        case "krol": return "⚜️";
+        case "cesarz": return "👑";
+        default: return "";
+    }
+}
+
 // OBSŁUGA POP-UP'U I WYŚWIETLANIA DYNASTII NA STRONIE GŁÓWNEJ
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,8 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const totalPages = Math.ceil(dynasties.length / DYNASTIES_PER_PAGE);
         const start = (page - 1) * DYNASTIES_PER_PAGE;
         const end = start + DYNASTIES_PER_PAGE;
-        // Wyświetlaj najnowsze dynastie jako pierwsze
-        const dynastiesToShow = dynasties.slice().reverse().slice(start, end);
+        const dynastiesToShow = dynasties.slice(start, end);
 
         previewsContainer.innerHTML = "";
         dynastiesToShow.forEach((dynasty, idx) => {
@@ -27,7 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
             preview.onclick = () => openModal(dynasty);
             preview.innerHTML = `
                 <h1>${dynasty.nazwa}</h1>
-                <img class="previewImgs" src="${dynasty.herb}" alt="Herb dynastii">
+                <div class="previewImgs">
+                    <img src="${dynasty.herb}" alt="Herb dynastii">
+                </div>
                 <p>${dynasty.motto || ""}</p>
             `;
             previewsContainer.appendChild(preview);
@@ -70,18 +84,42 @@ document.addEventListener("DOMContentLoaded", () => {
             <img class="modal-shield-img" src="${dynasty.herb}" alt="Herb dynastii">
             <p>${dynasty.motto || ""}</p>
         `;
-        // Władcy w stylu z creator.html
         let rulersHtml = "";
-        dynasty.władcy.forEach(ruler => {
+        dynasty.władcy.forEach((ruler, i) => {
             rulersHtml += `
-                <div class="ruler-card" style="margin: 10px auto;">
+                <div class="ruler-card" style="margin: 10px auto;" >
                     ${ruler.herbRodu ? `<img src="${ruler.herbRodu}" alt="Herb władcy" style="width: 80px;">` : ""}
-                    <p><strong>${ruler.imie}</strong></p>
+                    <p>
+                        <span class="ruler-rank-icon" data-rank="${ruler.poziom || 'bezziemi'}">${getRankIcon(ruler.poziom || 'bezziemi')}</span>
+                        <strong>${ruler.imie}</strong>
+                    </p>
                     <p>${ruler.opis}</p>
                     <p><em>${ruler.okres}</em></p>
                     ${ruler.mapka ? `<img src="${ruler.mapka}" alt="Mapa" style="width: 100px;">` : ""}
                 </div>
             `;
+            if (i < dynasty.władcy.length - 1) {
+                rulersHtml += `
+                    <div class="ruler-arrow-block-side" style="display:flex;align-items:center;justify-content:center;margin:8px 0;">
+                        <div class="ruler-arrow-side" style="font-size:72px;color:#fff;line-height:1;margin-right:8px;">
+                            <span>↓</span>
+                        </div>
+                        <div class="ruler-period-side" style="font-size:14px;color:#fff;font-style:italic;">
+                            ${ruler.okres}
+                        </div>
+                    </div>
+                `;
+            }
+            if (i === dynasty.władcy.length - 1) {
+                rulersHtml += `
+                    <div class="ruler-bar-block" style="display:flex;flex-direction:column;align-items:center;min-width:80px;margin:0 10px;">
+                        <div class="ruler-bar-period" style="font-size:14px;color:#fff;margin-bottom:2px;text-align:center;font-style:italic;">
+                            ${ruler.okres}
+                        </div>
+                        <div class="ruler-bar" style="width:60px;height:6px;background:linear-gradient(90deg,#fff 60%,#8a1d2f 100%);border-radius:3px;margin-top:2px;"></div>
+                    </div>
+                `;
+            }
         });
         document.getElementById('modalRulers').innerHTML = rulersHtml || "<p>Brak władców</p>";
 
@@ -93,6 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (event.target === modal) modal.style.display = 'none';
         };
     };
+
+    const dynasties = getDynasties();
+    dynasties.forEach(dynasty => {
+        dynasty.władcy.forEach(ruler => {
+            if (!ruler.poziom) ruler.poziom = "bezziemi";
+        });
+    });
+    localStorage.setItem("dynasties", JSON.stringify(dynasties));
 
     renderPreviews(currentPage);
 });
