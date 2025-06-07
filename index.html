@@ -27,63 +27,12 @@
 
 
 
-    <div class="main">
-
-        <div class="previews" onclick="openModal('dynastia1')">
-            <h1>Preview 1</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia2')">
-            <h1>Preview 2</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia1')">
-            <h1>Preview 3</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia2')">
-            <h1>Preview 4</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia1')"> 
-            <h1>Preview 5</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia2')">
-            <h1>Preview 6</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia1')">
-            <h1>Preview 7</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-        <div class="previews" onclick="openModal('dynastia2')">
-            <h1>Preview 8</h1>
-            <img class="previewImgs" src="example.png">
-            <p>Krótki opis co iczego</p>
-        </div>
-
-
-    </div>
-
+    <div class="main" id="dynastyPreviews"></div>
+    <div id="pagination"></div>
     <!-- Modal -->
     <div id="dynastyModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" id="closeModalBtn">&times;</span>
             <div id="modalShield"></div>
             <div id="modalRulers"></div>
         </div>

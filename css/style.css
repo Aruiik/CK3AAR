@@ -203,6 +203,18 @@ body {
     color: white;
 }
 
+.dynasty-info {
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    flex-shrink: 0;    
+}
+
+.dynasty-info:hover {
+    box-shadow: 0 8px 32px 0 rgba(138,29,47,0.25), 0 2px 8px 0 #fff2;
+    transform: scale(1.01);
+    z-index: 1;
+}
+
 #dynastyFormContainer {
     color: white;
 }
@@ -260,7 +272,7 @@ body {
 .dynasty-grid {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center; /* to centrowanie pionowe */
     gap: 20px;
     margin-bottom: 40px;
 }
@@ -270,6 +282,10 @@ body {
     padding: 20px;
     border-radius: 10px;
     width: 250px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .rulers-list {
@@ -280,6 +296,7 @@ body {
     overflow-y: hidden; /* Żeby nie pojawiał się pionowy scroll */
     flex-wrap: nowrap; /* Żeby NIE zawijało do nowej linii */
     padding-bottom: 10px; /* Trochę miejsca na pasek przewijania */
+    align-items: center; /* <-- dodaj to! */
 }
 
 .ruler-card {
@@ -288,6 +305,55 @@ body {
     border-radius: 10px;
     width: 200px;
     flex-shrink: 0; /* Władcy się nie zwężają */
+    position: relative;
+    transition: box-shadow 0.2s, transform 0.2s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rulers-list .ruler-card:first-child {
+    margin-left: 16px;
+}
+
+.ruler-card:hover {
+    box-shadow: 0 8px 24px 0 rgba(0,0,0,0.25), 0 1.5px 6px 0 #fff3;
+    transform: scale(1.03);
+    z-index: 2;
+}
+
+.ruler-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.ruler-card:hover .ruler-actions {
+    opacity: 1;
+}
+
+.edit-ruler-btn,
+.delete-ruler-btn {
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 4px;
+    padding: 4px 7px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.2s;
+}
+
+.edit-ruler-btn:hover {
+    background: #ffe082;
+}
+
+.delete-ruler-btn:hover {
+    background: #ff8a80;
 }
 
 /* ROZSUWANE MENU */
@@ -358,4 +424,119 @@ body {
 
 .arrow.rotate {
     transform: rotate(270deg);
+}
+
+.add-ruler-tile {
+    background-color: #d1a1a1;
+    color: #8a1d2f;
+    border: 2px dashed #8a1d2f;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    cursor: pointer;
+    min-width: 200px;  /* stała szerokość jak ruler-card */
+    max-width: 200px;
+    min-height: 120px;
+    max-height: 180px;
+    height: 180px;      /* stała wysokość jak ruler-card */
+    width: 200px;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+}
+
+.add-ruler-tile:hover {
+    background-color: #f5e0e0;
+}
+
+.ruler-arrow-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* <-- zmień z flex-end na center */
+    margin: 0 10px;
+    min-width: 60px;
+}
+
+.ruler-period {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 2px;
+    text-align: center;
+    font-style: italic;
+}
+
+.ruler-arrow {
+    font-size: 36px;
+    color: #fff;
+    line-height: 1;
+    margin-top: 0;
+    /* Możesz zamienić na SVG dla lepszego efektu */
+}
+
+/* Pasek okresu ostatniego władcy */
+.ruler-bar-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+    margin: 0 10px;
+}
+
+.ruler-bar-period {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 2px;
+    text-align: center;
+    font-style: italic;
+}
+
+.ruler-bar {
+    width: 60px;
+    height: 6px;
+    background: linear-gradient(90deg, #fff 60%, #8a1d2f 100%);
+    border-radius: 3px;
+    margin-top: 2px;
+}
+
+.delete-dynasty-btn {
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 22px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: background 0.2s, opacity 0.2s;
+    z-index: 2;
+}
+
+.dynasty-info:hover .delete-dynasty-btn {
+    opacity: 1;
+}
+
+.delete-dynasty-btn:hover {
+    background: #ff8a80;
+}
+
+#pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+.pagination-btn {
+    background: #8a1d2f;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin: 0 3px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.2s;
+}
+.pagination-btn.active,
+.pagination-btn:hover {
+    background: #a1243a;
 }

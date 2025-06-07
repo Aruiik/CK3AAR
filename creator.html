@@ -53,5 +53,25 @@
     <div class="dynMain">
         <div id="dynasties-list"></div>
     </div>
+
+    <!-- Pop-up do dodawania/edycji władcy -->
+    <div id="addRulerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRulerModal">&times;</span>
+            <h2>Dodaj władcę</h2>
+            <form id="add-ruler-popup-form">
+                <input type="text" name="ruler-name" placeholder="Imię władcy" required>
+                <div>
+                    <input type="number" name="ruler-period-from" placeholder="Od (rok)" required>
+                    <input type="number" name="ruler-period-to" placeholder="Do (rok)" required>
+                </div>
+                <input type="text" name="ruler-description" placeholder="Opis rządów" required>
+                <input type="text" name="ruler-herb" placeholder="URL herbu rodu (opcjonalnie)">
+                <input type="text" name="ruler-map" placeholder="URL mapy zasięgu (opcjonalnie)">
+                <button type="submit" id="rulerSubmitBtn">Dodaj władcę</button>
+            </form>
+        </div>
+    </div>
+    <!-- filepath: d:\Studia\Żurowski\Projekt\CK3AAR\creator.html -->
 </body>
 </html>
